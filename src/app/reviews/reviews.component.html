@@ -1,0 +1,44 @@
+<div class="container" >
+  <div class="row">
+ 
+    <div class="col-md-6 col-sm-12 movie-review-card" *ngFor="let review of reviews">
+    <a href="#">
+      <div class="row movie-description">
+      <div class="movie-title">
+        <strong><h3>{{review.title}}</h3></strong>
+      </div>
+        <div class="col-md-4 col-sm-12 movie-image">
+          <img class="movie-image-img" src="../../assets/images/news/news1.jpg">
+        </div>
+        <div class="col-md-8 col-sm-12 movie-review-intro">
+          <strong><h3>{{review.text}}</h3></strong>
+          <p>Review by: {{review.reviewer}}</p>
+          <p>{{review.description}}</p>
+          <p>{{review.rating}}</p>
+        </div>
+      </div>
+       </a>
+  </div>
+   
+</div>
+</div>
+
+
+
+<!--
+<p>
+{{review.reviewwall.tagline}}
+{{review.reviewwall.watchable}}
+
+</p>
+
+<p *ngFor="let rating of review.reviewwall.otherRatings">
+  {{rating.reviewer}}
+  {{rating.rating}}
+</p>
+
+
+-->
+
+
+

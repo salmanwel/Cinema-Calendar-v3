@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Nav bar styles */
+
+#menu-bar.navbar-default .navbar-brand {
+    color: rgba(31, 233, 174, 1);
+}
+#menu-bar.navbar-default {
+    font-size: 14px;
+    background-color: rgba(45, 45, 45, 1);
+    border-bottom-width: 1px;
+}
+#menu-bar.navbar-default .navbar-nav>li>a {
+    color: rgba(31, 233, 174, 1);
+    background-color: rgba(248, 248, 248, 0);
+}
+#menu-bar.navbar-default .navbar-nav>li>a:hover,
+#menu-bar.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(51, 51, 51, 1);
+    background-color: rgba(248, 248, 248, 0);
+}
+#menu-bar.navbar-default .navbar-nav>.active>a,
+#menu-bar.navbar-default .navbar-nav>.active>a:hover,
+#menu-bar.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(0, 0, 0, 1);
+    background-color: rgba(231, 231, 231, 1);
+}
+#menu-bar.navbar-default .navbar-toggle {
+    border-color: #ddd;
+}
+#menu-bar.navbar-default .navbar-toggle:hover,
+#menu-bar.navbar-default .navbar-toggle:focus {
+    background-color: #ddd;
+}
+#menu-bar.navbar-default .navbar-toggle .icon-bar {
+    background-color: #888;
+}
+#menu-bar.navbar-default .navbar-toggle:hover .icon-bar,
+#menu-bar.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #2d2d2d;
+}
