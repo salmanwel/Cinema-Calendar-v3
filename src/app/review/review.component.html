@@ -1,0 +1,30 @@
+
+<!--
+<div class="container" *ngIf="review">
+  <p>{{review.title}}</p>
+</div>
+
+-->
+
+<div class="jumbotron" *ngIf="review">
+  <div class="row">
+     <div class="col-md-4 col-xs-12 col-xs-push-0 col-md-push-4">
+       <img class="review-image-img" src="../../assets/images/news/news1.jpg">
+    </div>
+
+    <div class="col-md-4 col-xs-12 col-xs-pull-0 col-md-pull-4" >
+      <p>{{review.reviewwall.watchable}}</p>
+      
+      <div class="row">
+        <div class="col-md-2 col-xs-2"  *ngFor="let rating of review.reviewwall.otherRatings">
+      <img class="review-rating" src="../../assets/images/rating/rating_imdb.jpg">
+      <p>{{rating.rating}}</p>
+        </div>
+      </div>
+  </div>
+   
+    <div class="col-md-4 col-xs-12">
+      <p>{{review.rating}}</p>
+       <p>{{review.description}}</p>
+  </div>
+</div>

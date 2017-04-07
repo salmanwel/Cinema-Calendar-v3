@@ -20,6 +20,7 @@ export class ReviewsComponent implements OnInit {
     this.reviews = [];
     this._reviewService.getReviews()
       .subscribe(reviews => {
+        console.log(reviews);
         this.reviews = reviews;
       });
   }

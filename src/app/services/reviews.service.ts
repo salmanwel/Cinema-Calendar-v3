@@ -13,4 +13,9 @@ export class ReviewService{
             .map(res => res.json());
     }
 
+    getReview(id){
+        return this._http.get('api/review/'+id)
+            .map(res => res.json());
+    }
+
 }
