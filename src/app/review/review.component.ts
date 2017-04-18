@@ -3,6 +3,10 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {ReviewService} from '../services/reviews.service';
 import {Review} from '../Review';
 
+import {CloudinaryImageComponent} from 'ng2-cloudinary';
+
+import {Auth} from './../services/auth.service';
+
 @Component({
   moduleId: module.id,
   selector: 'review',
@@ -15,7 +19,8 @@ export class ReviewComponent implements OnInit {
 
     constructor(
         private router:ActivatedRoute, 
-        private _reviewService:ReviewService){
+        private _reviewService:ReviewService,
+        private auth: Auth){
         
     }
     

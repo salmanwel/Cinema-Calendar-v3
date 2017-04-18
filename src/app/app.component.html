@@ -22,6 +22,21 @@
             </ul>
         </div> Collapsable -->
 
+        <div class="collapse navbar-collapse navbar-menubuilder">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a routerLink="/">Home</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()">Login</a>
+                </li>
+                <li><a routerLink="/admin" *ngIf="auth.authenticated()">Admin</a>
+                </li>
+                <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()">Logout</a>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </div>
 

@@ -11,20 +11,26 @@ export class Review{
         wallImgUrl: string;
         tagline: string;
         watchable: number;
-        otherRatings:{
+        otherRatings:[
+            {
             reviewer: string;
             rating: number;
-        }
+            otherReviewImgUrl: string;
+        }]
     }
 
-    memes:{
+    memes:[
+        {
         memetext: string;
         memeImgUrl: string;
         claps: number;
     }
+    ]
 
-    comments:{
+    comments:[
+        {
         userId: string;
         comment: string;
     }
+    ]
 }

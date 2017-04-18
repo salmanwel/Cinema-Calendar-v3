@@ -18,4 +18,14 @@ export class ReviewService{
             .map(res => res.json());
     }
 
+    saveReview(review){
+        console.log("Inside Service");
+        console.log(review);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/review', JSON.stringify(review), {headers: headers})
+            .map(res => res.json()
+             );
+    }
 }
+

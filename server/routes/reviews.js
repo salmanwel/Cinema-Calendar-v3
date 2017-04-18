@@ -35,21 +35,18 @@ router.get('/review/:id', function(req, res, next){
 
 // Save review
 router.post('/review', function(req, res, next){
+    console.log("Inside Server");
+    console.log(req.body);
     var review = req.body;
-    if(!review.text || !(review.isCompleted + '')){
-        res.status(400);
-        res.json({
-            "error": "Invalid Data"
-        });
-    } else {
-        db.save(review, function(err, result){
+     
+        db.reviews.save(review, function(err, result){
             if(err){
                 res.send(err); 
             } else {
                 res.json(result);
             }
         });
-    }
+    
 });
 
 // Update review

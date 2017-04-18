@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {ReviewService} from './services/reviews.service';
+import {Auth} from './services/auth.service';
 
 @Component({
   moduleId: module.id,
@@ -9,5 +10,8 @@ import {ReviewService} from './services/reviews.service';
   providers: [ReviewService]
 })
 export class AppComponent {
+  constructor(private auth:Auth){
+    
+  }
   
 }

@@ -1,0 +1,46 @@
+<h4 *ngIf="!auth.authenticated()">You're not logged in</h4>
+<div class="container" *ngIf="authenticateUsers(profile)">
+ <p>Welcome {{profile.nickname}}</p>
+ <div class="add-review-form text-center">
+    <h1>Add Review</h1>
+    <div class="form-group">
+        Title:<input class="form-control " placeholder="Enter Movie Title..." autofocus #movieTitle>
+        <br>
+        Tagline:<input class="form-control " placeholder="Enter Tagline..." autofocus #reviewTagline>
+        <br>
+        Description:<input class="form-control " placeholder="Enter Description..." autofocus #reviewDesc>
+        <br>
+        Reviewer<input class="form-control" placeholder="Enter name of the Reviewer..." autofocus #reviewer>
+        <br>
+        Rating:<input class="form-control " placeholder="Enter Rating..." autofocus #movieRating>
+        <br>
+
+        <h1> <strong>Review wall</strong></h1>
+        Tagline<input class="form-control " placeholder="Enter Tagline inside the review..." autofocus #wallTagline>
+        <br>
+        Watchable<input class="form-control " placeholder="Enter Watchable..." autofocus #watchable>
+        <br>
+
+       
+  <div class="form-group form-inline" *ngFor="let rate of rowRate">
+      <label for="Reviewer">{{rate.name}}</label>
+    <input class="form-control " [(ngModel)]="rateReviewer" placeholder="Enter Reviewer..." autofocus >
+        <br>
+        <label for="Rating">{{rate.rating}}</label>
+        <input class="form-control " [(ngModel)]="rateRating" placeholder="Enter Rating..." autofocus >
+        <br>
+       
+
+ </div>  
+   <button (click)="addOneRow()" class="btn btn-primary">Add more Reviewers</button>
+<br>
+<br>
+<button (click)="testModel(rateReviewer, rateRating)" class="btn btn-primary">Testing Model</button>
+
+        <button (click)="addReview($event, movieTitle, reviewTagline, reviewDesc, reviewer, movieRating )" 
+        class="btn btn-primary btn-block">Add</button>    
+     
+</div>
+
+ </div>
+</div>

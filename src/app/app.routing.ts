@@ -3,6 +3,9 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {ReviewsComponent} from './reviews/reviews.component';
 import {ReviewComponent} from './review/review.component';
+import {AdminComponent} from './admin/admin.component';
+
+import {AuthGuard} from './auth.guard';
 
 const appRoutes: Routes = [
     {
@@ -12,6 +15,11 @@ const appRoutes: Routes = [
     {
         path:'review/:id',
         component: ReviewComponent
+    },
+    {
+        path:'admin',
+        component: AdminComponent,
+        canActivate: [AuthGuard]
     }
 ];
 
