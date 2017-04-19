@@ -27,5 +27,16 @@ export class ReviewService{
             .map(res => res.json()
              );
     }
+
+    saveReactReview(review){
+        console.log("Inside React Service");
+        console.log(review);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/review', JSON.stringify(review), {headers: headers})
+            .map(res => res.json()
+             );
+
+    }
 }
 

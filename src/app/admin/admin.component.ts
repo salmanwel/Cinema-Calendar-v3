@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges  } from '@angular/core';
 import {Auth} from './../services/auth.service';
 import {ReviewService} from '../services/reviews.service';
 import {Review} from '../Review';
+
+// Reactive Forms
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-admin',
@@ -9,14 +12,14 @@ import {Review} from '../Review';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-
+ @Input() review: Review;
     profile: any;
     reviews: any;
     samplereview: any;
 
     rowRate: any;
 
-    constructor(private _reviewService: ReviewService,private auth:Auth){
+    constructor(private _reviewService: ReviewService,private auth:Auth, private fb: FormBuilder){
       this.profile = JSON.parse(localStorage.getItem('profile'));
       console.log(this.profile);
 
@@ -24,7 +27,12 @@ export class AdminComponent implements OnInit {
         name:"Reviewer",
         rating:"Rating"
       }];
+
+      // Create Reactive Forms
+      this.createForm();
   }
+
+
 
   ngOnInit() {
     this.reviews = [];
@@ -92,5 +100,78 @@ export class AdminComponent implements OnInit {
   testModel(rateReviewer, rateRating){
     console.log("rate",rateReviewer.value,rateRating.value);
   }
+
+  // Reactive Forms
+   reviewForm: FormGroup;
+
+  createForm() {
+    this.reviewForm = this.fb.group({
+      movieTitle: '',
+      reviewTagline: '',
+      reviewDesc: '',
+      reviewer: '',
+      movieRating: ''
+    });
+  }
+
+onSubmit() {
+
+    var result;
+    var reactReviews: any;
+
+    reactReviews = this.prepareSaveReview();
+    console.log(reactReviews);
+    
+      result= this._reviewService.saveReactReview(reactReviews);
+  
+      result.subscribe(x => {
+        this.reviews.push(reactReviews);
+       
+      });
+    
+}
+    
+  
+
+  prepareSaveReview(): Review {
+    const formModel = this.reviewForm.value;
+    
+    const saveReview: Review = {
+      
+      title: formModel.movieTitle as string,
+      imgUrl: "" as string,
+      text: formModel.reviewTagline as string,
+      description: formModel.reviewDesc as string,
+      reviewer: formModel.reviewer as string,
+      timestamp:"" as string,
+      rating: formModel.movieRating as number,
+      reviewwall:{
+        wallImgUrl:"" as string,
+        tagline:"" as string,
+        watchable:5 as number,
+        otherRatings:[
+          {
+          reviewer:"" as string,
+          rating:4 as number,
+          otherReviewImgUrl:"" as string
+        }]
+      },
+      memes:[
+        {
+        memetext:"" as string,
+        memeImgUrl:"" as string,
+        claps:4 as number
+      }],
+    comments:[
+        {
+        userId:"" as string,
+        comment:"" as string
+    }]
+     
+    };
+
+    return saveReview;
+  }
+
 
 }

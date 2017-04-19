@@ -18,6 +18,9 @@ import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
 import {Auth} from './services/auth.service';
 import {AuthGuard} from './auth.guard';
 
+// Reactive
+import { ReactiveFormsModule } from '@angular/forms';
+
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
 
@@ -36,7 +39,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HttpModule,
     routing,
     Ng2CloudinaryModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule
   ],
   providers: [
     appRoutingProviders,
