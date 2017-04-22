@@ -1,10 +1,12 @@
 import { Component, OnInit, Input, OnChanges  } from '@angular/core';
 import {Auth} from './../services/auth.service';
 import {ReviewService} from '../services/reviews.service';
-import {Review} from '../Review';
+import {Review, ReviewWall, OtherRatings} from '../Review';
 
 // Reactive Forms
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+
+import { Customer, Address} from '../kalakala';
 
 @Component({
   selector: 'app-admin',
@@ -15,21 +17,13 @@ export class AdminComponent implements OnInit {
  @Input() review: Review;
     profile: any;
     reviews: any;
-    samplereview: any;
-
-    rowRate: any;
+    
+    public ReviewForm: FormGroup;
 
     constructor(private _reviewService: ReviewService,private auth:Auth, private fb: FormBuilder){
       this.profile = JSON.parse(localStorage.getItem('profile'));
       console.log(this.profile);
 
-      this.rowRate=[{
-        name:"Reviewer",
-        rating:"Rating"
-      }];
-
-      // Create Reactive Forms
-      this.createForm();
   }
 
 
@@ -41,8 +35,41 @@ export class AdminComponent implements OnInit {
         console.log(reviews);
         this.reviews = reviews;
       });
+
+    this.ReviewForm = this.fb.group({
+            title: '',
+            imgUrl: '',
+            text: '',
+            reviewer: '',
+            timestamp: '',
+            rating: '',
+            otherRatings: this.fb.array([
+                this.initOtherRatings(),
+            ])
+        });
    
   }
+
+  initOtherRatings() {
+        // initialize our ratings
+        return this.fb.group({
+            reviewer:'',
+            rating:'',
+            otherReviewImgUrl:''
+        });
+    }
+
+    addAddress() {
+    // add ratings to the list
+    const control = <FormArray>this.ReviewForm.controls['otherRatings'];
+    control.push(this.initOtherRatings());
+}
+
+removeAddress(i: number) {
+    // remove ratings from the list
+    const control = <FormArray>this.ReviewForm.controls['otherRatings'];
+    control.removeAt(i);
+}
 
   authenticateUsers(profile){
     if(profile.email=='smsalman7@gmail.com'){
@@ -52,126 +79,46 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  addOneRow(){
-       this.rowRate.push({
-         name:"Reviewer",
-        rating:"Rating"
-       })
+  save(model: Review) {
+        // call API to save customer
+        console.log(model);
+     
 
-  }
+        var result;
+        var reactReviews: any;
 
-  addReview(event,  movieTitle, reviewTagline, reviewDesc, reviewer, movieRating){
-    console.log(movieTitle.value, reviewTagline.value, reviewDesc.value, reviewer.value, movieRating.value);
-    //console.log("rate",rateReviewer.value,rateRating.value);
+        reactReviews = this.prepareSaveReview();
+        console.log(reactReviews);
 
-    var result;
-    var newReview = {
-      title: movieTitle.value, 
-      imgUrl: "",
-      text: reviewTagline.value, 
-      description: reviewDesc.value, 
-      reviewer: reviewer.value, 
-      timestamp:"",
-      rating: movieRating.value,
-
-      reviewwall:{
-        wallImgUrl:"",
-        tagline:"",
-        watchable:'5',
-        otherRatings:[
-          {
-          reviewer:"",
-          rating:"",
-          otherReviewImgUrl:""
-        }]
-      }
-    
-    };
-  console.log(newReview);
-    result= this._reviewService.saveReview(newReview);
+        result= this._reviewService.saveReactReview(reactReviews);
   
-      result.subscribe(x => {
-        this.reviews.push(newReview);
-       
-      });
-
-  }
-
-  testModel(rateReviewer, rateRating){
-    console.log("rate",rateReviewer.value,rateRating.value);
-  }
-
-  // Reactive Forms
-   reviewForm: FormGroup;
-
-  createForm() {
-    this.reviewForm = this.fb.group({
-      movieTitle: '',
-      reviewTagline: '',
-      reviewDesc: '',
-      reviewer: '',
-      movieRating: ''
-    });
-  }
-
-onSubmit() {
-
-    var result;
-    var reactReviews: any;
-
-    reactReviews = this.prepareSaveReview();
-    console.log(reactReviews);
-    
-      result= this._reviewService.saveReactReview(reactReviews);
-  
-      result.subscribe(x => {
+        result.subscribe(x => {
         this.reviews.push(reactReviews);
        
       });
-    
-}
-    
-  
 
-  prepareSaveReview(): Review {
-    const formModel = this.reviewForm.value;
+    }
+
+    prepareSaveReview(): Review {
+    const formModel = this.ReviewForm.value;
+
+     const otherRatingsDeepCopy: OtherRatings[] = formModel.otherRatings.map(
+      (otherRatings: OtherRatings) => Object.assign({}, otherRatings)
+    );
     
-    const saveReview: Review = {
+    const saveReview: any = {
       
-      title: formModel.movieTitle as string,
-      imgUrl: "" as string,
-      text: formModel.reviewTagline as string,
-      description: formModel.reviewDesc as string,
-      reviewer: formModel.reviewer as string,
-      timestamp:"" as string,
-      rating: formModel.movieRating as number,
-      reviewwall:{
-        wallImgUrl:"" as string,
-        tagline:"" as string,
-        watchable:5 as number,
-        otherRatings:[
-          {
-          reviewer:"" as string,
-          rating:4 as number,
-          otherReviewImgUrl:"" as string
-        }]
-      },
-      memes:[
-        {
-        memetext:"" as string,
-        memeImgUrl:"" as string,
-        claps:4 as number
-      }],
-    comments:[
-        {
-        userId:"" as string,
-        comment:"" as string
-    }]
+      title: formModel.title as string,
+      otherRatings:otherRatingsDeepCopy
+      
      
     };
 
     return saveReview;
+    }
+
   }
 
+  
 
-}
+

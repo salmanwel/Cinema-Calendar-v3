@@ -7,30 +7,38 @@ export class Review{
     timestamp: string;
     rating: number;
     
-    reviewwall:{
-        wallImgUrl: string;
-        tagline: string;
-        watchable: number;
-        otherRatings:[
-            {
-            reviewer: string;
-            rating: number;
-            otherReviewImgUrl: string;
-        }]
-    }
+    reviewwall:ReviewWall;
 
-    memes:[
-        {
-        memetext: string;
-        memeImgUrl: string;
-        claps: number;
-    }
-    ]
+    memes:Memes[];
 
-    comments:[
-        {
-        userId: string;
-        comment: string;
-    }
-    ]
+    comments:Comments[];
+}
+
+
+export class ReviewWall {
+    wallImgUrl: string;
+    tagline: string;
+    watchable: number;
+    otherRatings:OtherRatings[];
+
+}
+
+export class OtherRatings{
+    reviewer= '';
+    rating= '';
+    otherReviewImgUrl= '';
+
+}
+
+export class Memes{
+    memetext: string;
+    memeImgUrl: string;
+    claps: number;
+
+}
+
+export class Comments{
+    userId: string;
+    comment: string;
+
 }
