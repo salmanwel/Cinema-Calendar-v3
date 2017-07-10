@@ -1,4 +1,5 @@
 export class Review{
+    _id: number;
     title: string;
     imgUrl: string;
     text: string;
@@ -9,8 +10,8 @@ export class Review{
     
     reviewwall:ReviewWall;
 
+    otherRatings: OtherRatings[];
     memes:Memes[];
-
     comments:Comments[];
 }
 
@@ -19,7 +20,7 @@ export class ReviewWall {
     wallImgUrl: string;
     tagline: string;
     watchable: number;
-    otherRatings:OtherRatings[];
+   
 
 }
 

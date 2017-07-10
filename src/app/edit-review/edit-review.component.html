@@ -1,17 +1,13 @@
-<h4 *ngIf="!auth.authenticated()">You're not logged in</h4>
-<div class="container" *ngIf="authenticateUsers(profile)">
- <p>Welcome {{profile.nickname}}</p>
- 
- <div class="container">
-    <h4>Add Review</h4>
+<div class="container">
+    <h4>Edit customer</h4>
 
-    <form [formGroup]="ReviewForm" novalidate (ngSubmit)="save(myForm)">
+    <form [formGroup]="ReviewForm" novalidate (ngSubmit)="save(myForm)"  *ngIf="review">
     <!-- we will place our fields here -->
 
     <!-- Main Page -->
     <div class="form-group">
-        <label>Movie Title:</label>
-        <input type="text" formControlName="title">
+        <label>Movie Title: </label>
+        <input type="text" [value]="review.title" formControlName="title">
     </div>
 
   
@@ -23,25 +19,25 @@
 
     <div class="form-group">
         <label>Description:</label>
-        <input type="text" formControlName="text">
+        <input type="text" [value]="review.text" formControlName="text">
     </div>
 
 
     <div class="form-group">
         <label>Reviewer:</label>
-        <input type="text" formControlName="reviewer">
+        <input type="text" [value]="review.reviewer" formControlName="reviewer">
     </div>
 
 
     <div class="form-group">
         <label>Timestamp:</label>
-        <input type="text" formControlName="timestamp">
+        <input type="text" [value]="review.timestamp" formControlName="timestamp">
     </div>
 
 
     <div class="form-group">
         <label>Rating:</label>
-        <input type="text" formControlName="rating">
+        <input type="text" [value]="review.rating" formControlName="rating">
     </div>
   
  <!-- Review wall Group -->
@@ -50,17 +46,17 @@
 
     <div class="form-group" enctype="multipart/form-data">
         <label>Wall Image Url:</label>
-        <input type="file" ng2FileSelect [uploader]="uploader" formControlName="wallImgUrl" accept="image/*;capture=camera">
+        <input (change)="fileChangeEvent($event)" type="file" formControlName="wallImgUrl" id="fileInput">
     </div>
 
     <div class="form-group">
         <label>Tagline:</label>
-        <input type="text" formControlName="tagline">
+        <input type="text" [value]="review.reviewwall.tagline" formControlName="tagline">
     </div>
 
     <div class="form-group">
         <label>Watchable:</label>
-        <input type="text" formControlName="watchable">
+        <input type="text" [value]="review.reviewwall.watchable" formControlName="watchable">
     </div>
 
   </div>
@@ -90,9 +86,9 @@
                     <input type="text" formControlName="rating">
                 </div>
 
-                <div class="form-group" enctype="multipart/form-data">
+                <div>
                     <label>Img Url:</label>
-                    <input type="file" ng2FileSelect [uploader]="uploader" formControlName="otherReviewImgUrl" accept="image/*;capture=camera">
+                    <input type="file" formControlName="otherReviewImgUrl">
                 </div>
             
     </div>
@@ -105,10 +101,5 @@
    <br>
     <button type="submit" class="btn btn-success" >Submit</button>
 </form>
-
-</div>
-
-
- 
 
 </div>

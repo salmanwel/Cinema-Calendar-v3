@@ -17,7 +17,7 @@ export class ReviewService{
         return this._http.get('api/review/'+id)
             .map(res => res.json());
     }
-
+ 
     saveReview(review){
         console.log("Inside Service");
         console.log(review);
@@ -37,6 +37,13 @@ export class ReviewService{
             .map(res => res.json()
              );
 
+    }
+
+    
+    deleteReview(id){
+        console.log("Delete Service");
+        return this._http.delete('/api/review/'+id)
+            .map(res => res.json());
     }
 }
 

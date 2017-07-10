@@ -4,6 +4,13 @@ var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://admin:admin@ds147900.mlab.com:47900/moviemarket',['reviews']);
 
+var fs = require('fs');
+// logging
+
+
+var util = require('util');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
 
 // Get Reviews
 router.get('/reviews', function(req, res, next){
@@ -37,6 +44,7 @@ router.get('/review/:id', function(req, res, next){
 router.post('/review', function(req, res, next){
     console.log("Inside Server");
     console.log(req.body);
+    log_file.write(util.format(req));
     var review = req.body;
      
         db.reviews.save(review, function(err, result){
@@ -92,5 +100,10 @@ router.delete('/review/:id', function(req, res, next){
         }
     });
 });
+
+
+
+
+
 
 module.exports = router;

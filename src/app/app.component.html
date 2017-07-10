@@ -32,6 +32,9 @@
                 </li>
                 <li><a routerLink="/admin" *ngIf="auth.authenticated()">Admin</a>
                 </li>
+                <li><a routerLink="/edit" *ngIf="auth.authenticated()">Edit Reviews</a>
+                </li>
+                
                 <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()">Logout</a>
                 </li>
             </ul>

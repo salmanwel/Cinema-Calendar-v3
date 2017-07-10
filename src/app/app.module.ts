@@ -20,6 +20,8 @@ import {AuthGuard} from './auth.guard';
 
 // Reactive
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditComponent } from './edit/edit.component';
+import { EditReviewComponent } from './edit-review/edit-review.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -31,7 +33,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AppComponent,
     ReviewsComponent,
     ReviewComponent,
-    AdminComponent
+    AdminComponent,
+    EditComponent,
+    EditReviewComponent
   ],
   imports: [
     BrowserModule,
