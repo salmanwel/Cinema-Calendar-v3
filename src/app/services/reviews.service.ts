@@ -2,11 +2,18 @@ import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 
+export interface myData {
+   name:string;
+}
+
+
 @Injectable()
 export class ReviewService{
     constructor(private _http:Http){
         
     }
+
+    sharingData: myData={name:""};
     
     getReviews(){
         return this._http.get('/api/reviews')
@@ -17,6 +24,8 @@ export class ReviewService{
         return this._http.get('api/review/'+id)
             .map(res => res.json());
     }
+
+
  
     saveReview(review){
         console.log("Inside Service");
@@ -29,7 +38,7 @@ export class ReviewService{
     }
 
     saveReactReview(review){
-        console.log("Inside React Service");
+        
         console.log(review);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -44,6 +53,19 @@ export class ReviewService{
         console.log("Delete Service");
         return this._http.delete('/api/review/'+id)
             .map(res => res.json());
+    }
+
+    sendTitleData(title){
+     // console.log('save data function called' + title + this.sharingData.name);
+      this.sharingData.name=title; 
+ 
+    }
+
+    getTitleData (){
+
+       // console.log('get data function called');
+    return this.sharingData.name;
+
     }
 }
 

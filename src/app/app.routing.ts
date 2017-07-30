@@ -6,6 +6,7 @@ import {ReviewComponent} from './review/review.component';
 import {AdminComponent} from './admin/admin.component';
 import {EditComponent} from './edit/edit.component';
 import {EditReviewComponent} from './edit-review/edit-review.component';
+import {Admin2Component} from './admin2/admin2.component';
 
 import {AuthGuard} from './auth.guard';
 
@@ -21,6 +22,11 @@ const appRoutes: Routes = [
     {
         path:'admin',
         component: AdminComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path:'admin2',
+        component: Admin2Component,
         canActivate: [AuthGuard]
     },
     {

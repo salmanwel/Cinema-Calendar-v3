@@ -13,6 +13,7 @@ var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 var log_stdout = process.stdout;
 
 // Get Reviews
+
 router.get('/reviews', function(req, res, next){
     db.reviews.find(function(err,reviews){
         if(err){ 
@@ -22,6 +23,7 @@ router.get('/reviews', function(req, res, next){
         }
     });
 });
+
 
 // Get single Review
 
@@ -37,8 +39,23 @@ router.get('/review/:id', function(req, res, next){
     });
 });
 
+// Get last updated Review
 
-// Save Review
+
+router.get('/review/:id', function(req, res, next){
+    db.reviews.findOne({
+        title: mongojs.ObjectId(req.params.id)
+    },function(err,review){
+        if(err){ 
+            res.send(err);
+        } else{
+            res.json(review);
+        }
+    });
+});
+
+
+
 
 // Save review
 router.post('/review', function(req, res, next){
@@ -51,6 +68,7 @@ router.post('/review', function(req, res, next){
             if(err){
                 res.send(err); 
             } else {
+               // console.log("Inside Post",result);
                 res.json(result);
             }
         });
