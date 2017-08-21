@@ -37,15 +37,15 @@ export class ReviewService{
              );
     }
 
-    saveReactReview(review){
-        
-        console.log(review);
+
+    updateReview(review){
+        var id=review._id;
+        console.log("Id is",review.otherRatings);
+        console.log("Update Service");
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this._http.post('/api/review', JSON.stringify(review), {headers: headers})
-            .map(res => res.json()
-             );
-
+        return this._http.put('/api/review/'+id, JSON.stringify(review.otherRatings), {headers: headers})
+            .map(res => res.json());
     }
 
     

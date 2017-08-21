@@ -22,11 +22,11 @@ import {
 
 @Component({
   moduleId: module.id,
-  selector: 'app-admin2',
-  templateUrl: './admin2.component.html',
-  styleUrls: ['./admin2.component.css']
+  selector: 'app-admin3',
+  templateUrl: './admin3.component.html',
+  styleUrls: ['./admin3.component.css']
 })
-export class Admin2Component implements OnInit {
+export class Admin3Component implements OnInit {
 
  @Input() review: Review;
   reviews: any;
@@ -183,13 +183,13 @@ export class Admin2Component implements OnInit {
 
 
 
-                
+               /* 
                 let title_params: string;
                 title_params = this.review.title as string,
 
                     this.navigateToAdmin3(title_params);
 
-
+            */
             },
             5000);
 

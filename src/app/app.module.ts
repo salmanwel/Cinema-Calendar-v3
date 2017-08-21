@@ -23,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EditComponent } from './edit/edit.component';
 import { EditReviewComponent } from './edit-review/edit-review.component';
 import { Admin2Component } from './admin2/admin2.component';
+import { Admin3Component } from './admin3/admin3.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -37,7 +38,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AdminComponent,
     EditComponent,
     EditReviewComponent,
-    Admin2Component
+    Admin2Component,
+    Admin3Component
   ],
   imports: [
     BrowserModule,

@@ -1,253 +1,281 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnChanges  } from '@angular/core';
-import {Auth} from './../services/auth.service';
-import {ReviewService} from '../services/reviews.service';
-import {Review, ReviewWall, OtherRatings} from '../Review';
-import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
+import {
+    Component,
+    OnInit,
+    Input,
+    EventEmitter,
+    Output,
+    OnChanges
+} from '@angular/core';
+import {
+    Auth
+} from './../services/auth.service';
+import {
+    ReviewService
+} from '../services/reviews.service';
+import {
+    Review,
+    ReviewWall,
+    OtherRatings
+} from '../Review';
+import {
+    CloudinaryOptions,
+    CloudinaryUploader
+} from 'ng2-cloudinary';
 
 // Reactive Forms
-import { Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import {
+    Validators,
+    FormArray,
+    FormBuilder,
+    FormGroup
+} from '@angular/forms';
 
-import {Routes, RouterModule, Router} from '@angular/router';
+import {
+    Routes,
+    RouterModule,
+    Router
+} from '@angular/router';
 
-import { Customer, Address} from '../kalakala';
+import {
+    Customer,
+    Address
+} from '../kalakala';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+    selector: 'app-admin',
+    templateUrl: './admin.component.html',
+    styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
- @Input() review: Review;
+    @Input() review: Review;
     profile: any;
     reviews: any;
-    after_id:any;
+    after_id: any;
     imageId: any;
+    image_UrlCopy: any;
 
     uploader: CloudinaryUploader = new CloudinaryUploader(
-        new CloudinaryOptions({ cloudName: 'kalakalareview', uploadPreset: 'vx02k4gp' })
+        new CloudinaryOptions({
+            cloudName: 'kalakalareview',
+            uploadPreset: 'vx02k4gp'
+        })
     );
 
-//
-   
 
-
-  //
-    
     public ReviewForm: FormGroup;
-   // public reviewwall: FormGroup;
-  
-    constructor(private _reviewService: ReviewService,private auth:Auth, private fb: FormBuilder, private router: Router){
+    // public reviewwall: FormGroup;
+    imageList: string[] = [];
 
-    
-
-      this.profile = JSON.parse(localStorage.getItem('profile'));
-      console.log(this.profile);
-
-      let imageList: number[]=[];
-      let imageNameList: string[]=[];
-      let imageCounter: number=1;
-
-      this.uploader.onAfterAddingFile=(item):any=>{
-
-        console.log("After adding file");
-        console.log(item);
+    constructor(private _reviewService: ReviewService, private auth: Auth, private fb: FormBuilder, private router: Router) {
 
 
-      }
 
-      
+        this.profile = JSON.parse(localStorage.getItem('profile'));
+        console.log(this.profile);
 
-      
 
-      
+        let imageNameList: string[] = [];
+        let imageCounter: number = 0;
 
-      this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any): any => {    
+
+
+        this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any): any => {
 
             let res: any = JSON.parse(response);
             this.imageId = res.public_id;
-            console.log("Status",status);
-           // console.log("Item",item.FileItem.file.name);
-            console.log(this.imageId);
+            console.log("Status", status);
 
-            imageList[imageCounter]=res.public_id;
-         //   imageNameList[imageCounter]=item.FileItem.file.name;
-            imageCounter=imageCounter+1;
-           console.log(imageCounter);
-           console.log(imageList);
-           console.log(imageNameList);
-            return { item, response, status, headers };
+
+            this.imageList[imageCounter] = res.public_id;
+
+            imageCounter = imageCounter + 1;
+
+            return {
+                item,
+                response,
+                status,
+                headers
+            };
         };
 
-        
-
-  }
 
 
+    }
 
-  ngOnInit() {
-    
-  this.reviews = [];
-    this._reviewService.getReviews()
-      .subscribe(reviews => {
-        console.log(reviews);
-        this.reviews = reviews;
-      });
-    
 
-    this.ReviewForm = this.fb.group({
+
+    ngOnInit() {
+
+        this.reviews = [];
+        this._reviewService.getReviews()
+            .subscribe(reviews => {
+                this.reviews = reviews;
+            });
+
+
+        this.ReviewForm = this.fb.group({
             title: '',
             imgUrl: '',
             text: '',
-            description:'',
+            description: '',
             reviewer: '',
             timestamp: '',
             rating: '',
-          
-            wallImgUrl:'',
-            tagline:'',
-            watchable:'',
-            
-           
+
+            wallImgUrl: '',
+            tagline: '',
+            watchable: '',
+
+
             otherRatings: this.fb.array([
                 this.initOtherRatings(),
             ])
         });
-   
-  }
 
-  initOtherRatings() {
+    }
+
+    initOtherRatings() {
         // initialize our ratings
         return this.fb.group({
-            reviewer:'',
-            rating:'',
-            otherReviewImgUrl:''
+            reviewer: '',
+            rating: '',
+            otherReviewImgUrl: ''
         });
     }
 
     addAddress() {
-    // add ratings to the list
-    const control = <FormArray>this.ReviewForm.controls['otherRatings'];
-    control.push(this.initOtherRatings());
-}
-
-removeAddress(i: number) {
-    // remove ratings from the list
-    const control = <FormArray>this.ReviewForm.controls['otherRatings'];
-    control.removeAt(i);
-}
-
-  authenticateUsers(profile){
-    if(profile.email=='smsalman7@gmail.com'){
-      return true;
-    }else{
-      return false;
+        // add ratings to the list
+        const control = < FormArray > this.ReviewForm.controls['otherRatings'];
+        control.push(this.initOtherRatings());
     }
-  }
+
+    removeAddress(i: number) {
+        // remove ratings from the list
+        const control = < FormArray > this.ReviewForm.controls['otherRatings'];
+        control.removeAt(i);
+    }
+
+    authenticateUsers(profile) {
+        if (profile.email == 'smsalman7@gmail.com') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
- 
 
-  save(model: Review) {
+
+    save(model: Review) {
         // call API to save customer
-        
-     
+
+
 
         var result;
         var reactReviews: any;
 
-        reactReviews = this.prepareSaveReview();
-        console.log(reactReviews);
-       
-        // Upload Images to Cloudinary
-        
         this.uploader.uploadAll();
 
-        result= this._reviewService.saveReactReview(reactReviews);
-       
-        console.log(reactReviews);
+        setTimeout(() => {
+                reactReviews = this.prepareSaveReview();
 
-        result.subscribe(x => {
-        this.reviews.push(reactReviews);  
-      });
+                result = this._reviewService.saveReview(reactReviews);
 
-        const formModel = this.ReviewForm.value;
-      let title_params : string;
-      title_params= formModel.title as string,
-  
-      this.navigateToAdmin2(title_params);
 
-   
+                result.subscribe(x => {
+                    this.reviews.push(reactReviews);
+                });
+
+
+
+                const formModel = this.ReviewForm.value;
+                let title_params: string;
+                title_params = formModel.title as string,
+
+                    this.navigateToAdmin2(title_params);
+            },
+            2000);
+
+
+
     }
 
-        
+
+
 
     prepareSaveReview(): Review {
-      var date_now= new Date();
-      console.log(date_now);
-      
-    const formModel = this.ReviewForm.value;
-   // const formgroupModel= this.reviewwall.value;
+        var date_now = new Date();
+        console.log(date_now);
 
-     const otherRatingsDeepCopy: OtherRatings[] = formModel.otherRatings.map(
-      (otherRatings: OtherRatings) => Object.assign({}, otherRatings)
-    );
+        const formModel = this.ReviewForm.value;
+        // const formgroupModel= this.reviewwall.value;
 
-    const reviewwallDeepCopy: ReviewWall = {
-      wallImgUrl: formModel.wallImgUrl as string,
-      tagline: formModel.tagline as string,
-      watchable: formModel.watchable as number
+        const otherRatingsDeepCopy: OtherRatings[] = formModel.otherRatings.map(
+            (otherRatings: OtherRatings) => Object.assign({}, otherRatings)
+        );
+
+        let reviewwallDeepCopy: ReviewWall = {
+            wallImgUrl: "null",
+            tagline: formModel.tagline as string,
+            watchable: formModel.watchable as number
+        };
+
+
+
+        reviewwallDeepCopy = {
+            wallImgUrl: this.imageList[1],
+            tagline: formModel.tagline as string,
+            watchable: formModel.watchable as number
+        }
+
+        this.image_UrlCopy = this.imageList[0];
+
+
+
+
+        console.log("Review wall image", reviewwallDeepCopy.wallImgUrl);
+        console.log('image Url', this.image_UrlCopy);
+
+
+
+        const saveReview: any = {
+
+            title: formModel.title as string,
+            imgUrl: this.image_UrlCopy,
+            text: formModel.text as string,
+            description: formModel.description as string,
+            reviewer: formModel.reviewer as string,
+            timestamp: date_now,
+            rating: formModel.rating as number,
+
+            reviewwall: reviewwallDeepCopy,
+
+            otherRatings: otherRatingsDeepCopy
+
+
+        };
+
+        return saveReview;
+
     }
 
-   
- 
-    console.log("Review wall",reviewwallDeepCopy.wallImgUrl);
 
-    const saveReview: any = {
-      
-      title: formModel.title as string,
-      imgUrl: formModel.imgUrl as string,
-      text: formModel.text as string,
-      description: formModel.description as string,
-      reviewer: formModel.reviewer as string,
-      timestamp: formModel.timestamp as string,
-      rating: formModel.rating as number,
-      
-      reviewwall:reviewwallDeepCopy,
 
-      otherRatings:otherRatingsDeepCopy
-      
-     
-    };
 
-    return saveReview;
+    navigateToAdmin2(title) {
 
-    
-    
+
+
+        //   console.log(this.after_id._id);
+        //  console.log("ID after",title);
+        this._reviewService.sendTitleData(title);
+
+
+        this.router.navigate(['/admin2']);
+
+
+
     }
 
-   
-  
 
-    navigateToAdmin2(title){
-
-     
-
-   //   console.log(this.after_id._id);
-    console.log("ID after",title);
-    this._reviewService.sendTitleData(title);
-
-    setTimeout(() => 
-{
-    this.router.navigate(['/admin2']);
-},
-5000);
-
-     
-    }
-    
-
-  }
-
-  
-
-
+}

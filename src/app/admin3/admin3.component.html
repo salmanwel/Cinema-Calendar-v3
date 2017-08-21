@@ -1,0 +1,15 @@
+<h4 *ngIf="!auth.authenticated()">You're not logged in</h4>
+<div class="container" *ngIf="authenticateUsers(profile)">
+ <p>Welcome {{profile.nickname}}</p>
+
+<form [formGroup]="ReviewForm" novalidate (ngSubmit)="save(myForm)"  *ngIf="review">
+    <!-- we will place our fields here -->
+
+    <!-- Main Page -->
+    <div>
+      <h3>{{review.title}}</h3>
+        
+    </div>
+
+</form>
+</div>

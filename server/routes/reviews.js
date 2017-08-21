@@ -77,26 +77,18 @@ router.post('/review', function(req, res, next){
 
 // Update review
 router.put('/review/:id', function(req, res, next){
+
+    console.log("Inside server");
     var review = req.body;
     var updObj = {};
     
-    if(review.isCompleted){
-       updObj.isCompleted = review.isCompleted;
-    }
     
-    if(review.text){
-        updObj.text = review.text;
-    }
+        
+        console.log("Server data of update",review);
     
-    if(!updObj){
-        res.status(400);
-        res.json({
-            "error": "Invalid Data"
-        });
-    } else {
+   
         db.reviews.update({
-            _id: mongojs.ObjectId(req.params.id)
-        },updObj, {}, function(err, result){
+            _id: mongojs.ObjectId(req.params.id)} , {$set: {"otherRatings": review} }, function(err, result){
             if(err){
                 res.send(err); 
             } else {
@@ -104,10 +96,11 @@ router.put('/review/:id', function(req, res, next){
             }
         });
     }
-});
+);
 
 // Delete review
 router.delete('/review/:id', function(req, res, next){
+    console.log("Inside Server for delete");
     db.reviews.remove({
         _id: mongojs.ObjectId(req.params.id)
     },'', function(err, result){

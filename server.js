@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Set our api routes
 app.use('/api', reviews);
 
-app.use('/v1', imgUpload);
+//app.use('/v1', imgUpload);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
