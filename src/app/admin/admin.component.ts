@@ -76,7 +76,28 @@ export class AdminComponent implements OnInit {
 
 
         
+        let imageCounter: number = 0;
 
+
+
+        this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any): any => {
+
+            let res: any = JSON.parse(response);
+            this.imageId = res.public_id;
+            console.log("Status", status);
+
+
+            this.imageList[imageCounter] = res.public_id;
+            this.imageStatus[imageCounter]= status
+            imageCounter = imageCounter + 1;
+
+            return {
+                item,
+                response,
+                status,
+                headers
+            };
+        };
 
 
 
