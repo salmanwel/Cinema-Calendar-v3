@@ -33,8 +33,8 @@ export class OtherRatings{
 
 export class Memes{
     memetext: string;
-    memeImgUrl: string;
     claps: number;
+    memeImgUrl: string;
 
 }
 

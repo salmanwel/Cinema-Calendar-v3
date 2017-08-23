@@ -1,7 +1,7 @@
 import { Component, Input,OnInit } from '@angular/core';
 import {AdminComponent} from '../admin/admin.component';
 import {ReviewService} from '../services/reviews.service';
-import {Review, ReviewWall, OtherRatings} from '../Review';
+import {Review, ReviewWall, Memes} from '../Review';
 import {
     Routes,
     RouterModule,
@@ -81,8 +81,8 @@ export class Admin3Component implements OnInit {
 
      this.ReviewForm = this.fb.group({            
            
-            otherRatings: this.fb.array([
-                this.initOtherRatings(),
+            Memes: this.fb.array([
+                this.initMemes(),
             ])
         });
   
@@ -141,24 +141,24 @@ export class Admin3Component implements OnInit {
     }
 
 
-    initOtherRatings() {
+    initMemes() {
         // initialize our ratings
         return this.fb.group({
-            reviewer:'',
-            rating:'',
-            otherReviewImgUrl:''
+            memetext:'',
+            claps: '',
+            memeImgUrl:''
         });
     }
 
-        addOtherRatings() {
+        addMemes() {
         // add ratings to the list
-        const control = < FormArray > this.ReviewForm.controls['otherRatings'];
-        control.push(this.initOtherRatings());
+        const control = < FormArray > this.ReviewForm.controls['Memes'];
+        control.push(this.initMemes());
     }
 
-    removeOtherRatings(i: number) {
+    removeMemes(i: number) {
         // remove ratings from the list
-        const control = < FormArray > this.ReviewForm.controls['otherRatings'];
+        const control = < FormArray > this.ReviewForm.controls['Memes'];
         control.removeAt(i);
     }
 
@@ -174,11 +174,11 @@ export class Admin3Component implements OnInit {
 
         setTimeout(() => {
                 reactReviews = this.prepareSaveReview();
-                console.log("After Prepare Save",reactReviews.otherRatings);
+                console.log("After Prepare Save",reactReviews.Memes);
 
-                result = this._reviewService.updateReview(reactReviews).
+                result = this._reviewService.updateMemesReview(reactReviews).
                 subscribe(x => {
-                    this.review.otherRatings=reactReviews.otherRatings;
+                    this.review.memes=reactReviews.Memes;
                 });
 
 
@@ -206,28 +206,28 @@ export class Admin3Component implements OnInit {
         console.log("Image URL",this.image_UrlCopy);
 
 
-       for (let entry of formModel.otherRatings){
+       for (let entry of formModel.Memes){
            
            console.log("Inside for",entry);
-           formModel.otherRatings[counter].otherReviewImgUrl=this.image_UrlCopy[counter];
+           formModel.Memes[counter].memeImgUrl=this.image_UrlCopy[counter];
            counter = counter + 1;
            
        }
 
        // formModel.otherRatings[0].otherReviewImgUrl=this.image_UrlCopy;
        
-        console.log("Other ratings",formModel.otherRatings);
+        console.log("Memes ",formModel.Memes);
        // console.log("Other ratings url",formModel.otherRatings.otherReviewImgUrl);
 
-        const otherRatingsDeepCopy: OtherRatings[] = formModel.otherRatings.map(
-            (otherRatings: OtherRatings) => Object.assign({}, otherRatings)
+        const MemesDeepCopy: Memes[] = formModel.Memes.map(
+            (Memes: Memes) => Object.assign({}, Memes)
         );
 
 
 
         const saveReview: any = {
             _id: this.review._id,
-            otherRatings: otherRatingsDeepCopy
+            Memes: MemesDeepCopy
            
 
         };

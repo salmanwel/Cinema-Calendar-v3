@@ -81,13 +81,17 @@ router.put('/review/:id', function(req, res, next){
     console.log("Inside server");
     var review = req.body;
     var updObj = {};
+
+    updObj=review;
     
     
         
-        console.log("Server data of update",review);
-    
-   
-        db.reviews.update({
+       // console.log("Server data of update2",updObj[0].reviewer);
+      
+        
+        if(updObj[0].reviewer!=undefined){
+            console.log("Inside Server other ratings",updObj[0].reviewer);
+              db.reviews.update({
             _id: mongojs.ObjectId(req.params.id)} , {$set: {"otherRatings": review} }, function(err, result){
             if(err){
                 res.send(err); 
@@ -95,6 +99,23 @@ router.put('/review/:id', function(req, res, next){
                 res.json(result);
             }
         });
+        }
+   
+        if(updObj[0].memetext!=undefined){
+            console.log("Inside Server Memes",updObj[0].memetext);
+            db.reviews.update({
+            _id: mongojs.ObjectId(req.params.id)} , {$set: {"memes": review} }, function(err, result){
+            if(err){
+                res.send(err); 
+            } else {
+                res.json(result);
+            }
+        });
+            
+        }
+
+
+      
     }
 );
 

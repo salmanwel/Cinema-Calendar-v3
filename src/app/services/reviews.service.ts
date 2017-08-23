@@ -48,6 +48,16 @@ export class ReviewService{
             .map(res => res.json());
     }
 
+
+    updateMemesReview(review){
+        var id=review._id;
+        console.log("Meme data",review.Memes);
+        console.log("Update Service");
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.put('/api/review/'+id, JSON.stringify(review.Memes), {headers: headers})
+            .map(res => res.json());
+    }
     
     deleteReview(id){
         console.log("Delete Service");

@@ -11,5 +11,44 @@
         
     </div>
 
+    <div formArrayName="Memes">
+        <div *ngFor="let ratings of ReviewForm.controls.Memes.controls; let i=index">
+            <!-- address header, show remove button when more than one address available -->
+            <div>
+                <span>Memes {{i + 1}}</span>
+               <button *ngIf="ReviewForm.controls.Memes.controls.length > 1" 
+                    (click)="removeMemes(i)">
+               </button>
+            </div>
+
+            <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+            <div [formGroupName]="i">
+                <!--OtherRatings-->
+                <div>
+                    <label>Meme Text:</label>
+                    <input type="text" formControlName="memetext">
+                </div>
+            
+                <div>
+                    <label>Claps:</label>
+                    <input type="text" formControlName="claps">
+                </div>
+
+                <div class="form-group" enctype="multipart/form-data">
+                    <label>Img Url:</label>
+                    <input type="file" ng2FileSelect [uploader]="uploader" formControlName="memeImgUrl" accept="image/*;capture=camera">
+                </div>
+            
+    </div>
+        </div>
+    </div>
+ 
+
+
+   <button (click)="addMemes()" type="button" class="btn btn-primary" >Add another</button>
+   <br>
+   <br>
+   <button type="submit"  class="btn btn-success" >Submit</button>
+
 </form>
 </div>

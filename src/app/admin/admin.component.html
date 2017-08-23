@@ -64,43 +64,8 @@
   </div>
   
 
-   <!-- list of otherRatings -->
-    <div formArrayName="otherRatings">
-        <div *ngFor="let ratings of ReviewForm.controls.otherRatings.controls; let i=index">
-            <!-- address header, show remove button when more than one address available -->
-            <div>
-                <span>Address {{i + 1}}</span>
-                <span *ngIf="ReviewForm.controls.otherRatings.controls.length > 1" 
-                    (click)="removeAddress(i)">
-                </span>
-            </div>
-
-            <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
-            <div [formGroupName]="i">
-                <!--OtherRatings-->
-                <div>
-                    <label>Reviewer:</label>
-                    <input type="text" formControlName="reviewer">
-                </div>
-            
-                <div>
-                    <label>Rating:</label>
-                    <input type="text" formControlName="rating">
-                </div>
-
-                <div class="form-group" enctype="multipart/form-data">
-                    <label>Img Url:</label>
-                    <input type="file" ng2FileSelect [uploader]="uploader" formControlName="otherReviewImgUrl" accept="image/*;capture=camera">
-                </div>
-            
-    </div>
-        </div>
-    </div>
- 
-
-
-   <button (click)="addAddress()" type="button" class="btn btn-primary" >Add another</button>
-   <br>
+  
+     
     <button type="submit"  class="btn btn-success" >Submit</button>
 </form>
 

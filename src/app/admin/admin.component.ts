@@ -65,6 +65,7 @@ export class AdminComponent implements OnInit {
     public ReviewForm: FormGroup;
     // public reviewwall: FormGroup;
     imageList: string[] = [];
+    imageStatus: number []= [];
 
     constructor(private _reviewService: ReviewService, private auth: Auth, private fb: FormBuilder, private router: Router) {
 
@@ -74,29 +75,8 @@ export class AdminComponent implements OnInit {
         console.log(this.profile);
 
 
-        let imageNameList: string[] = [];
-        let imageCounter: number = 0;
+        
 
-
-
-        this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any): any => {
-
-            let res: any = JSON.parse(response);
-            this.imageId = res.public_id;
-            console.log("Status", status);
-
-
-            this.imageList[imageCounter] = res.public_id;
-
-            imageCounter = imageCounter + 1;
-
-            return {
-                item,
-                response,
-                status,
-                headers
-            };
-        };
 
 
 
@@ -190,9 +170,21 @@ export class AdminComponent implements OnInit {
 
                 const formModel = this.ReviewForm.value;
                 let title_params: string;
-                title_params = formModel.title as string,
+                title_params = formModel.title as string;
+                this.navigateToAdmin2(title_params);
 
-                    this.navigateToAdmin2(title_params);
+                
+
+                     console.log("Status of image",this.imageStatus[this.imageStatus.length-1]);
+                         if (this.imageStatus[this.imageStatus.length-1] ==200){
+                             console.log("Image upload successful");
+                             
+                         }
+                        else{
+                            console.log("Image upload Not successful");
+                        }
+                    
+                     
             },
             2000);
 
@@ -210,9 +202,6 @@ export class AdminComponent implements OnInit {
         const formModel = this.ReviewForm.value;
         // const formgroupModel= this.reviewwall.value;
 
-        const otherRatingsDeepCopy: OtherRatings[] = formModel.otherRatings.map(
-            (otherRatings: OtherRatings) => Object.assign({}, otherRatings)
-        );
 
         let reviewwallDeepCopy: ReviewWall = {
             wallImgUrl: "null",
@@ -248,9 +237,7 @@ export class AdminComponent implements OnInit {
             timestamp: date_now,
             rating: formModel.rating as number,
 
-            reviewwall: reviewwallDeepCopy,
-
-            otherRatings: otherRatingsDeepCopy
+            reviewwall: reviewwallDeepCopy
 
 
         };
