@@ -34,6 +34,8 @@ export class Admin3Component implements OnInit {
   imageList: string[] = [];
   imageId: any;
   image_UrlCopy: any;
+  imageStatus: number []= [];
+  memesCount: number =0;
 
    public ReviewForm: FormGroup;
 
@@ -127,7 +129,7 @@ export class Admin3Component implements OnInit {
     
 
 },
-5000);
+this.timeout);
 
    
   }
@@ -154,18 +156,24 @@ export class Admin3Component implements OnInit {
         // add ratings to the list
         const control = < FormArray > this.ReviewForm.controls['Memes'];
         control.push(this.initMemes());
+        this.memesCount=this.memesCount+1;
     }
 
     removeMemes(i: number) {
         // remove ratings from the list
         const control = < FormArray > this.ReviewForm.controls['Memes'];
         control.removeAt(i);
+        this.memesCount=this.memesCount-1;
     }
+
+
+     timeout: number =3000;
 
      save(model: Review) {
         // call API to save customer
 
-
+        console.log("Inside Save",this.timeout);
+       console.log("ratingsCount",this.memesCount);
 
         var result;
         var reactReviews: any;
@@ -173,6 +181,14 @@ export class Admin3Component implements OnInit {
         this.uploader.uploadAll();
 
         setTimeout(() => {
+
+            console.log("Inside Timeout");
+
+                 if (this.imageStatus[this.memesCount] ==200){
+
+                             console.log("Image upload successful");
+                             console.log("Timeout if",this.timeout);
+
                 reactReviews = this.prepareSaveReview();
                 console.log("After Prepare Save",reactReviews.Memes);
 
@@ -181,9 +197,15 @@ export class Admin3Component implements OnInit {
                     this.review.memes=reactReviews.Memes;
                 });
 
+                 }
 
+                 else {
+                            this.timeout=this.timeout+1000;
+                            console.log("Timeout Else",this.timeout);
+                            this.save(reactReviews);
+                        }
 
-               /* 
+                  /* 
                 let title_params: string;
                 title_params = this.review.title as string,
 
@@ -191,7 +213,7 @@ export class Admin3Component implements OnInit {
 
             */
             },
-            5000);
+            this.timeout);
 
     }
 

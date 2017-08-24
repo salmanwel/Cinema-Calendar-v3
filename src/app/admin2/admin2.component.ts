@@ -34,6 +34,8 @@ export class Admin2Component implements OnInit {
   imageList: string[] = [];
   imageId: any;
   image_UrlCopy: any;
+  imageStatus: number []= [];
+  ratingsCount: number =0;
 
    public ReviewForm: FormGroup;
 
@@ -51,7 +53,7 @@ export class Admin2Component implements OnInit {
      this.profile = JSON.parse(localStorage.getItem('profile'));
         console.log(this.profile);
 
-                let imageNameList: string[] = [];
+            
         let imageCounter: number = 0;
 
 
@@ -64,7 +66,8 @@ export class Admin2Component implements OnInit {
 
 
             this.imageList[imageCounter] = res.public_id;
-
+            this.imageStatus[imageCounter]= status
+           // this.ratingsCount=imageCounter;
             imageCounter = imageCounter + 1;
 
             return {
@@ -97,7 +100,7 @@ export class Admin2Component implements OnInit {
   
   
 
-      setTimeout(() => 
+     setTimeout(() => 
 {
 
    this.reviews = [];
@@ -107,8 +110,6 @@ export class Admin2Component implements OnInit {
         this.reviews = reviews;
         for (let review of this.reviews){
        if(title == review.title){
-       console.log("Title",review.title);
-       console.log("ID",review._id);
        id=review._id;
       
 } 
@@ -123,11 +124,12 @@ export class Admin2Component implements OnInit {
     }
 
       });
-
+}
+,
+this.timeout);
     
 
-},
-5000);
+
 
    
   }
@@ -154,18 +156,24 @@ export class Admin2Component implements OnInit {
         // add ratings to the list
         const control = < FormArray > this.ReviewForm.controls['otherRatings'];
         control.push(this.initOtherRatings());
+        this.ratingsCount=this.ratingsCount+1;
     }
 
     removeOtherRatings(i: number) {
         // remove ratings from the list
         const control = < FormArray > this.ReviewForm.controls['otherRatings'];
         control.removeAt(i);
+        this.ratingsCount=this.ratingsCount-1;
     }
+
+
+     timeout: number =3000;
 
      save(model: Review) {
         // call API to save customer
 
-
+       console.log("Inside Save",this.timeout);
+       console.log("ratingsCount",this.ratingsCount);
 
         var result;
         var reactReviews: any;
@@ -173,9 +181,17 @@ export class Admin2Component implements OnInit {
         this.uploader.uploadAll();
 
         setTimeout(() => {
-                reactReviews = this.prepareSaveReview();
-                console.log("After Prepare Save",reactReviews.otherRatings);
+                
+                console.log("Inside Timeout");
 
+                 if (this.imageStatus[this.ratingsCount] ==200){
+
+                             console.log("Image upload successful");
+                             console.log("Timeout if",this.timeout);
+
+                reactReviews = this.prepareSaveReview();
+               // console.log("After Prepare Save",reactReviews.otherRatings);
+                
                 result = this._reviewService.updateReview(reactReviews).
                 subscribe(x => {
                     this.review.otherRatings=reactReviews.otherRatings;
@@ -188,10 +204,17 @@ export class Admin2Component implements OnInit {
                 title_params = this.review.title as string,
 
                     this.navigateToAdmin3(title_params);
+                 }
 
-
+                        else {
+                            this.timeout=this.timeout+1000;
+                            console.log("Timeout Else",this.timeout);
+                            this.save(reactReviews);
+                        }
+                    
+                     
             },
-            5000);
+            this.timeout);
 
     }
 

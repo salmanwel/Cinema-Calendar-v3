@@ -125,36 +125,13 @@ export class AdminComponent implements OnInit {
 
             wallImgUrl: '',
             tagline: '',
-            watchable: '',
-
-
-            otherRatings: this.fb.array([
-                this.initOtherRatings(),
-            ])
+            watchable: ''
         });
 
     }
 
-    initOtherRatings() {
-        // initialize our ratings
-        return this.fb.group({
-            reviewer: '',
-            rating: '',
-            otherReviewImgUrl: ''
-        });
-    }
+   
 
-    addAddress() {
-        // add ratings to the list
-        const control = < FormArray > this.ReviewForm.controls['otherRatings'];
-        control.push(this.initOtherRatings());
-    }
-
-    removeAddress(i: number) {
-        // remove ratings from the list
-        const control = < FormArray > this.ReviewForm.controls['otherRatings'];
-        control.removeAt(i);
-    }
 
     authenticateUsers(profile) {
         if (profile.email == 'smsalman7@gmail.com') {
@@ -164,50 +141,55 @@ export class AdminComponent implements OnInit {
         }
     }
 
-
-
+ timeout: number =3000;
+       
 
     save(model: Review) {
         // call API to save customer
 
-
+        console.log("Inside Save",this.timeout);
 
         var result;
         var reactReviews: any;
 
         this.uploader.uploadAll();
+        
 
         setTimeout(() => {
-                reactReviews = this.prepareSaveReview();
+                
+     console.log("Inside Timeout");
+                   //  console.log("Status of image",this.imageStatus[this.imageStatus.length-1]);
+                         
+                         
+                         if (this.imageStatus[1] ==200){
 
-                result = this._reviewService.saveReview(reactReviews);
+                             console.log("Image upload successful");
+                             console.log("Timeout if",this.timeout);
+                             reactReviews = this.prepareSaveReview();
+
+                             result = this._reviewService.saveReview(reactReviews);
 
 
-                result.subscribe(x => {
-                    this.reviews.push(reactReviews);
-                });
-
-
+                              result.subscribe(x => {
+                              this.reviews.push(reactReviews);
+                              });
 
                 const formModel = this.ReviewForm.value;
                 let title_params: string;
                 title_params = formModel.title as string;
-                this.navigateToAdmin2(title_params);
-
-                
-
-                     console.log("Status of image",this.imageStatus[this.imageStatus.length-1]);
-                         if (this.imageStatus[this.imageStatus.length-1] ==200){
-                             console.log("Image upload successful");
-                             
+                            this.navigateToAdmin2(title_params);
                          }
-                        else{
-                            console.log("Image upload Not successful");
+
+
+                        else {
+                            this.timeout=this.timeout+1000;
+                            console.log("Timeout Else",this.timeout);
+                            this.save(reactReviews);
                         }
                     
                      
             },
-            2000);
+            this.timeout);
 
 
 
@@ -218,7 +200,7 @@ export class AdminComponent implements OnInit {
 
     prepareSaveReview(): Review {
         var date_now = new Date();
-        console.log(date_now);
+       // console.log(date_now);
 
         const formModel = this.ReviewForm.value;
         // const formgroupModel= this.reviewwall.value;
@@ -243,8 +225,8 @@ export class AdminComponent implements OnInit {
 
 
 
-        console.log("Review wall image", reviewwallDeepCopy.wallImgUrl);
-        console.log('image Url', this.image_UrlCopy);
+       // console.log("Review wall image", reviewwallDeepCopy.wallImgUrl);
+       // console.log('image Url', this.image_UrlCopy);
 
 
 
