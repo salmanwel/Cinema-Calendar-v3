@@ -66,7 +66,7 @@ export class Admin2Component implements OnInit {
 
 
             this.imageList[imageCounter] = res.public_id;
-            this.imageStatus[imageCounter]= status
+            this.imageStatus[imageCounter]= status;
            // this.ratingsCount=imageCounter;
             imageCounter = imageCounter + 1;
 
@@ -207,6 +207,9 @@ this.timeout);
                  }
 
                         else {
+                            if(this.timeout>=9000){
+                                this.timeout=3000;
+                            }
                             this.timeout=this.timeout+1000;
                             console.log("Timeout Else",this.timeout);
                             this.save(reactReviews);

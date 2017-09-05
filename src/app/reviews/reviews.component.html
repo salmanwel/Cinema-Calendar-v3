@@ -1,47 +1,36 @@
 <div class="container" >
   <div class="row">
  
-    <div class="col-md-6 col-sm-12 movie-review-card" *ngFor="let review of reviews">
+    <div class="col-md-8 col-md-offset-2 col-sm-12 movie-review-card" *ngFor="let review of reviews">
     <a routerLink="/review/{{review._id}}">
       <div class="row movie-description">
       <div class="movie-title">
         <strong><h3>{{review.title}}</h3></strong>
       </div>
         <div class="col-md-4 col-sm-12 movie-image">
-          <img class="movie-image-img" src="../../assets/images/news/news1.jpg">
+         
+         
+   <img src="http://res.cloudinary.com/kalakalareview/image/upload/w_176,h_188/v1503669976/{{review.imgUrl}}.jpg"><img>
+          
         </div>
         <div class="col-md-8 col-sm-12 movie-review-intro">
           <strong><h3>{{review.text}}</h3></strong>
           <p>Review by: {{review.reviewer}}</p>
           <p>{{review.description}}</p>
-          <p>{{review.rating}}</p>
+          <p>Ratings: {{review.rating}}</p>
         </div>
       </div>
        </a>
   </div>
+
+  
    
 </div>
 </div>
 
-<cl-image public-id="swqwctn15uhobiowhpxe" cloud-name="kalakalareview" format="gif">
-    
-</cl-image>
-
-<input type="file" ng2FileSelect [uploader]="uploader"/>
-<!--
-<p>
-{{review.reviewwall.tagline}}
-{{review.reviewwall.watchable}}
-
-</p>
-
-<p *ngFor="let rating of review.reviewwall.otherRatings">
-  {{rating.reviewer}}
-  {{rating.rating}}
-</p>
 
 
--->
+
 
 
 

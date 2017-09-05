@@ -66,7 +66,7 @@ export class Admin3Component implements OnInit {
 
 
             this.imageList[imageCounter] = res.public_id;
-
+            this.imageStatus[imageCounter]= status;
             imageCounter = imageCounter + 1;
 
             return {
@@ -200,11 +200,15 @@ this.timeout);
                  }
 
                  else {
+                            if(this.timeout>=9000){
+                                this.timeout=3000;
+                            }
                             this.timeout=this.timeout+1000;
                             console.log("Timeout Else",this.timeout);
                             this.save(reactReviews);
                         }
-
+                
+                 this.navigateToHome();
                   /* 
                 let title_params: string;
                 title_params = this.review.title as string,
@@ -258,16 +262,14 @@ this.timeout);
 
     }
 
-navigateToAdmin3(title) {
+navigateToHome() {
 
 
 
-        //   console.log(this.after_id._id);
-        //  console.log("ID after",title);
-        this._reviewService.sendTitleData(title);
+       
 
         console.log("Navigations");
-        this.router1.navigate(['/admin3']);
+        this.router1.navigate(['/']);
 
 
 

@@ -182,6 +182,9 @@ export class AdminComponent implements OnInit {
 
 
                         else {
+                            if(this.timeout>=9000){
+                                this.timeout=3000;
+                            }
                             this.timeout=this.timeout+1000;
                             console.log("Timeout Else",this.timeout);
                             this.save(reactReviews);

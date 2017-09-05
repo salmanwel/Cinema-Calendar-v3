@@ -12,6 +12,8 @@ import { ReviewComponent } from './review/review.component';
 import { Ng2CloudinaryModule } from 'ng2-cloudinary';
 import { FileUploadModule } from 'ng2-file-upload';
 import { AdminComponent } from './admin/admin.component';
+import { Cloudinary } from 'cloudinary-core/cloudinary-core-shrinkwrap';
+import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular';
 
 // Auth
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -30,6 +32,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
 }
 
+const cloudConfig = {
+  cloud_name: 'kalakalareview'
+};
+
+const cloudinaryLib = {
+  Cloudinary: Cloudinary
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,9 +56,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     FormsModule,
     HttpModule,
     routing,
+   
     Ng2CloudinaryModule,
     FileUploadModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   providers: [
     appRoutingProviders,
@@ -58,7 +70,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [ Http, RequestOptions ]
-    }
+    },
+    
   ],
   bootstrap: [AppComponent]
 })
